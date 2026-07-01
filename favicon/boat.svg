@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Dory boat">
+  <rect width="32" height="32" rx="6" fill="#1a2a3a"/>
+  <path fill="#c8d8e8" d="M4 20c4-2 8-3 12-3s8 1 12 3l-2 4H6l-2-4z"/>
+  <path fill="#8aa4bc" d="M8 18c3-1 6-2 8-2s5 1 8 2l-1 2H9l-1-2z"/>
+  <path fill="#e8f0f8" d="M14 10h4v6h-4z"/>
+</svg>
