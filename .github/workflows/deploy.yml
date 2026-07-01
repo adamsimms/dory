@@ -3,7 +3,7 @@
 # Repository secrets (Settings → Secrets and variables → Actions):
 #   FTP_SERVER, FTP_USERNAME, FTP_SERVER_DIR, SSH_DEPLOY_KEY
 # (same DreamHost deploy key as pinchards.is; FTP_SERVER_DIR is the site root)
-name: Deploy SFTP
+name: Deploy
 
 on:
   push:
@@ -94,7 +94,13 @@ jobs:
           ssh -i ~/.ssh/deploy_key -o BatchMode=yes -o ConnectTimeout=20 -p 22 \
             "${user}@${host}" "echo SSH OK from GitHub Actions"
 
-      - name: SFTP deploy (rsync over SSH)
+      - name: Update sitemap lastmod
+        run: |
+          lastmod="$(date -u +%Y-%m-%d)"
+          sed -i "s|<lastmod>.*</lastmod>|<lastmod>${lastmod}</lastmod>|" sitemap.xml
+          echo "sitemap lastmod: ${lastmod}"
+
+      - name: Deploy (rsync over SSH)
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}

@@ -3,16 +3,45 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  min-height: 100dvh;
   overflow: hidden;
 }
 
 .sketchfab-embed-wrapper {
   width: 100%;
   height: 100%;
+  min-height: 100dvh;
 }
 
 .sketchfab-embed-wrapper iframe {
   width: 100%;
   height: 100%;
+  min-height: 100dvh;
+  border: 0;
+}
+
+noscript {
+  display: block;
+  position: relative;
+  z-index: 1;
+  padding: 1rem;
+  text-align: center;
+  font-family: system-ui, sans-serif;
+  background: #1a2a3a;
+  color: #e8f0f8;
+}
+
+noscript a {
+  color: #c8d8e8;
+}
+
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
   border: 0;
 }

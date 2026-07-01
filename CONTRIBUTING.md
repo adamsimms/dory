@@ -9,7 +9,7 @@ This is a small personal project, but focused improvements are welcome.
 - Documentation fixes and clarifications
 - Accessibility (iframe titles, semantic HTML, keyboard-friendly embed options)
 - SEO metadata improvements
-- Performance (lazy-loading strategies, cache headers)
+- Performance (cache headers, embed load tuning)
 - Bug fixes with clear reproduction steps
 
 ## Before you start

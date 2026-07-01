@@ -1,6 +1,6 @@
 # Dory
 
-[![Deploy SFTP](https://github.com/adamsimms/dory/actions/workflows/deploy.yml/badge.svg)](https://github.com/adamsimms/dory/actions/workflows/deploy.yml)
+[![Deploy](https://github.com/adamsimms/dory/actions/workflows/deploy.yml/badge.svg)](https://github.com/adamsimms/dory/actions/workflows/deploy.yml)
 
 Fullscreen interactive 3D dory boat model — embedded from [Sketchfab](https://sketchfab.com/models/579758d4c7d3419cac6b380877ead206) and live at [pinchards.is/dory/](https://www.pinchards.is/dory/).
 
@@ -31,11 +31,16 @@ This repo deploys independently to `pinchards.is/dory/`. The parent [pinchards.i
 |------|---------|
 | **`index.html`** | Page shell, SEO metadata, Sketchfab embed |
 | **`css/style.css`** | Full-viewport iframe layout |
-| **`favicon/boat.svg`** | Tab icon |
+| **`images/og-image.jpg`** | Self-hosted Open Graph / social preview image |
+| **`favicon/boat.svg`** | Tab and home-screen icon |
 | **`.htaccess`** | Apache security headers and cache hints |
 | **`robots.txt`** | Crawler rules and sitemap pointer |
-| **`sitemap.xml`** | Subsite URL for search engines |
+| **`sitemap.xml`** | Subsite URL for search engines (`lastmod` refreshed on deploy) |
+| **`LICENSE`** | MIT license for site code; CC BY note for the 3D model |
+| **`CONTRIBUTING.md`** | Contribution guidelines |
+| **`SECURITY.md`** | Vulnerability reporting policy |
 | **`.github/workflows/deploy.yml`** | rsync deploy to DreamHost on push to `main` |
+| **`.github/dependabot.yml`** | Monthly GitHub Actions dependency updates |
 
 ## Local development
 
@@ -66,7 +71,7 @@ Reuse the DreamHost deploy secrets from pinchards.is:
 
 ### Dry run
 
-Use **Actions → Deploy SFTP → Run workflow** with `dry_run: true` to preview rsync changes without modifying the server.
+Use **Actions → Deploy → Run workflow** with `dry_run: true` to preview rsync changes without modifying the server.
 
 ### Validation
 
@@ -78,7 +83,7 @@ The page includes:
 
 - Descriptive `<title>` and meta description
 - Canonical URL (`https://www.pinchards.is/dory/`)
-- Open Graph and Twitter Card tags (preview image from Sketchfab)
+- Open Graph and Twitter Card tags (self-hosted preview image at `images/og-image.jpg`)
 - JSON-LD structured data (`WebPage` + `3DModel`)
 - `robots.txt` and `sitemap.xml` for crawlers
 
