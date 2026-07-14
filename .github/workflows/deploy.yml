@@ -1,10 +1,6 @@
-# Phase 5 retired — DreamHost rsync disabled (canonical: art.adamsimms.xyz/dory/).
-# workflow_dispatch kept for emergency rollback only; push no longer deploys.
-#
-# Repository secrets (Settings → Secrets and variables → Actions):
-#   FTP_SERVER, FTP_USERNAME, FTP_SERVER_DIR, SSH_DEPLOY_KEY
-# (same DreamHost deploy key as pinchards.is; FTP_SERVER_DIR is the site root)
-name: Deploy
+# Emergency publish only — production is art.adamsimms.xyz/dory/ via assemble.
+# Do not re-enable automatic push publish.
+name: Deploy SFTP
 
 on:
   workflow_dispatch:
@@ -41,9 +37,6 @@ jobs:
           fi
           if ! ssh-keygen -y -f ~/.ssh/deploy_key >/dev/null 2>&1; then
             echo "::error::SSH_DEPLOY_KEY is invalid in GitHub Secrets."
-            echo "On your Mac run: base64 < ~/.ssh/pinchards_deploy | pbcopy"
-            echo "Paste that single line as SSH_DEPLOY_KEY (replace the existing secret)."
-            echo "A raw PEM private key (multi-line) also works if pasted directly."
             exit 1
           fi
           host="$(printf '%s' "${FTP_SERVER}" | tr -d '\r\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
@@ -66,20 +59,6 @@ jobs:
               exit 1
             fi
           done
-          if [[ "${FTP_SERVER}" == *"@"* ]] || [[ "${FTP_SERVER}" == *"://"* ]] || [[ "${FTP_SERVER}" == *"/"* ]] || [[ "${FTP_SERVER}" == *":"* ]]; then
-            echo "FTP_SERVER must be hostname only (e.g. iad1-shared-b8-36.dreamhost.com)."
-            echo "Do not include user@, port :22, sftp://, or a path."
-            exit 1
-          fi
-          if [[ "${FTP_SERVER_DIR}" != /* ]]; then
-            echo "FTP_SERVER_DIR must be an absolute path (e.g. /home/pinchard/pinchards.is), not a relative folder name."
-            exit 1
-          fi
-          if [[ "${FTP_SERVER_DIR}" == *"@"* ]] || [[ "${FTP_SERVER_DIR}" == *"://"* ]]; then
-            echo "FTP_SERVER_DIR must be a path only. Put the hostname in FTP_SERVER and username in FTP_USERNAME."
-            exit 1
-          fi
-          echo "FTP_SERVER resolves next; FTP_SERVER_DIR length: ${#FTP_SERVER_DIR}"
 
       - name: Test SSH connection
         env:
@@ -92,13 +71,7 @@ jobs:
           ssh -i ~/.ssh/deploy_key -o BatchMode=yes -o ConnectTimeout=20 -p 22 \
             "${user}@${host}" "echo SSH OK from GitHub Actions"
 
-      - name: Update sitemap lastmod
-        run: |
-          lastmod="$(date -u +%Y-%m-%d)"
-          sed -i "s|<lastmod>.*</lastmod>|<lastmod>${lastmod}</lastmod>|" sitemap.xml
-          echo "sitemap lastmod: ${lastmod}"
-
-      - name: Deploy (rsync over SSH)
+      - name: SFTP deploy (rsync over SSH)
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -114,8 +87,7 @@ jobs:
             dry_run="--dry-run"
           fi
           dest="${host}:${server_dir}"
-          echo "rsync target host: ${host}"
-          echo "rsync target path: ${server_dir}"
+          echo "rsync target: ${dest}"
           rsync -avzr --delete ${dry_run} \
             --exclude '.git/' \
             --exclude '.git*/' \
