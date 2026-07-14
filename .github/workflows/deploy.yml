@@ -1,4 +1,5 @@
-# Push to main → rsync to pinchards.is/dory/ on DreamHost (SSH).
+# Phase 5 retired — DreamHost rsync disabled (canonical: art.adamsimms.xyz/dory/).
+# workflow_dispatch kept for emergency rollback only; push no longer deploys.
 #
 # Repository secrets (Settings → Secrets and variables → Actions):
 #   FTP_SERVER, FTP_USERNAME, FTP_SERVER_DIR, SSH_DEPLOY_KEY
@@ -6,9 +7,6 @@
 name: Deploy
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
     inputs:
       dry_run:
