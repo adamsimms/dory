@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: Dory
+abstract: Interactive 3D Newfoundland dory boat model
+authors:
+  - family-names: Simms
+    given-names: Adam
+    email: hello@adamsimms.xyz
+license: MIT
+repository-code: "https://github.com/adamsimms/dory"
+url: "https://github.com/adamsimms/dory"
+date-released: "2026-06-29"
